@@ -1,0 +1,26 @@
+body{
+    background: #191c1f;
+}
+.table{
+    margin: 20px 0px 0px 70px;
+    width: 80%;
+}
+.toolbar{
+    margin: 300px 0px 0px 580px;
+
+}
+
+.toolbar>button{
+    margin: 0px 40px 0px 0px;
+}
+
+.button-image{
+    width: 25px;
+    height: 25px;
+}
+
+.button-image:last-child{
+    width: 25px;
+    height: 25px;
+    margin: 0px 7px 0px 0px;
+}
