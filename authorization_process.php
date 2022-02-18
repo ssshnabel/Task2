@@ -18,9 +18,13 @@ $requestedPassword = mysqli_query($connect, "SELECT user_password FROM users WHE
 $realPassword = implode(mysqli_fetch_assoc($requestedPassword));
 mysqli_close($connect);
 
-$requestedStatus = mysqli_query($connect, "SELECT status FROM users WHERE user_mail = '$enteredMail'");
-$userStatus = implode(mysqli_fetch_assoc($requestedStatus));
+$requestedStatus = mysqli_fetch_assoc(mysqli_query($connect, "SELECT status FROM users WHERE user_mail = '$enteredMail'"));
 mysqli_close($connect);
+if (isset($requestedStatus)){
+    $userStatus = implode($requestedStatus);
+} else{
+    $userStatus = 'active';
+}
 
 $requestedId = mysqli_query($connect, "SELECT user_id FROM users WHERE user_mail = '$enteredMail'");
 $userId = implode(mysqli_fetch_assoc($requestedId));

@@ -1,6 +1,3 @@
-<?php
-    require_once "db.inc.php";
-?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -29,7 +26,7 @@
 </head>
 <body class="text-center">
 <main class="form-signin">
-    <form method="POST" action="authorization.php">
+    <form method="POST" action="authorization_process.php">
         <h1 class="sign-in_label"> Sign in </h1>
         <div class="form-floating">
             <input type="email" name="mail" class="form-control" id="floatingInput" placeholder="name@example.com">

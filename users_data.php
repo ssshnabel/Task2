@@ -45,17 +45,15 @@ $users = mysqli_fetch_all($users);
             <a class="index-link" href="index.php"> Click here to return to the main page </a>
             <div class="toolbar">
                 <form action="users_data_process.php" method="post">
-                    <button type="button" name="block" class="btn btn-secondary" data-bs-toggle="tooltip" data-bs-placement="block" title="Block">
+                    <button type="submit" name="block" class="btn btn-secondary" data-bs-toggle="tooltip" data-bs-placement="block" title="Block">
                         <img class= "button-image" src="icons/block.svg"> Block
                     </button>
-                </form>
-                <form action="users_data_process.php" method="post">
-                    <button type="button" name="unblock" class="btn btn-secondary" data-bs-toggle="tooltip" data-bs-placement="unblock" title="Unblock">
+
+                    <button type="submit" name="unblock" class="btn btn-secondary" data-bs-toggle="tooltip" data-bs-placement="unblock" title="Unblock">
                         <img class= "button-image" src="icons/unblock.svg"> Unblock
                     </button>
-                </form>
-                <form action="users_data_process.php" method="post">
-                    <button type="button" name="delete" class="btn btn-secondary" data-bs-toggle="tooltip" data-bs-placement="delete" title="Delete">
+
+                    <button type="submit" name="delete" class="btn btn-secondary" data-bs-toggle="tooltip" data-bs-placement="delete" title="Delete">
                         <img class= "button-image" src="icons/delete.svg"> Delete
                     </button>
                 </form>
@@ -69,15 +67,13 @@ $users = mysqli_fetch_all($users);
                     ?>
                     <th scope="col">
                         <div class="form-check">
-                            <form action="" method="post">
+                            <form action="users_data.php" method="post">
                                 <input class="form-check-input" name="select_all" type="checkbox" value="select_all" id="select_all">
                                 <label class="form-check-label" for="select_all">
                                     Select all
                                 </label>
                             </form>
-                        </div>
-                        <div class="form-check">
-                            <form action="" method="post">
+                            <form>
                                 <input class="form-check-input" name="remove_selection" type="checkbox" value="remove_selection" id="remove_selection">
                                 <label class="form-check-label" for="remove_selection">
                                     Remove selection

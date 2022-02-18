@@ -15,17 +15,23 @@ $password = hash('sha3-256', filter_var(trim($_POST['password']), FILTER_SANITIZ
 $registerDate = date('d-m-Y');
 $loginDate = date('d-m-Y');
 
-$requestedStatus = mysqli_query($connect, "SELECT status FROM users WHERE user_mail = '$mail'");
-$userStatus = implode(mysqli_fetch_assoc($requestedStatus));
+$requestedStatus = mysqli_fetch_assoc(mysqli_query($connect, "SELECT `status` FROM users WHERE user_mail = '$mail'"));
 mysqli_close($connect);
 
-if($userStatus != 'blocked'){
-    $insertQuery = "INSERT INTO users (`user_name`, `user_mail`, `user_password`, `register_date`, `login_date`, `status`) VALUES ('$name', '$mail', '$password', '$registerDate', '$loginDate', 'active')";
-    if(mysqli_query($connect, $insertQuery)){
+if (isset($requestedStatus)){
+    $userStatus = implode($requestedStatus);
+    if($userStatus != 'blocked'){
+        $insertQuery = "INSERT INTO users (`user_name`, `user_mail`, `user_password`, `register_date`, `login_date`, `status`) VALUES ('$name', '$mail', '$password', '$registerDate', '$loginDate', 'active')";
+        mysqli_query($connect, $insertQuery);
+        mysqli_close($connect);
         header('Location: /');
-    } else{
-        echo 'Sql-query error'.mysqli_error($connect);
     }
+} else{
+    $insertQuery = "INSERT INTO users (`user_name`, `user_mail`, `user_password`, `register_date`, `login_date`, `status`) VALUES ('$name', '$mail', '$password', '$registerDate', '$loginDate', 'active')";
+    mysqli_query($connect, $insertQuery);
     mysqli_close($connect);
-}
+    header('Location: /');
+    }
+
+
 
