@@ -29,20 +29,19 @@
 </head>
 <body class="text-center">
 <main class="form-signin">
-    <form method="POST" action="">
+    <form method="POST" action="authorization.php">
         <h1 class="sign-in_label"> Sign in </h1>
         <div class="form-floating">
-            <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
+            <input type="email" name="mail" class="form-control" id="floatingInput" placeholder="name@example.com">
             <label for="floatingInput">Email address</label>
         </div>
         <div class="form-floating">
-            <input type="password" class="form-control" id="floatingPassword" placeholder="Password">
+            <input type="password" name="password" class="form-control" id="floatingPassword" placeholder="Password">
             <label for="floatingPassword">Password</label>
         </div>
         <button class="w-100 btn btn-lg btn-primary" type="submit">Sign in</button>
     </form>
     <a class="register-link" href="register.php"> Click here to register </a>
-    <a class="register-link" href="users_data.php"> Click here to users data </a>
 
 </main>
 </body>

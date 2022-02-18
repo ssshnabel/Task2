@@ -29,7 +29,7 @@ require_once "db.inc.php";
 </head>
 <body class="text-center">
 <main class="form-signin">
-    <form method="POST" action="register_process.php">
+    <form action="register_process.php" method="POST">
         <h1 class="register_label"> Enter the data to register : </h1>
         <div class="form-floating">
             <input type="email" name="mail" class="form-control" id="floatingInput" placeholder="name@example.com">

@@ -1,6 +1,19 @@
 <?php
-require_once "db.inc.php";
+
+$host = "127.0.0.1";
+$dbUsername = "root";
+$dbPassword = "";
+$dbName = "task3";
+
+$connect = mysqli_connect($host, $dbUsername, null, $dbName, 3306);
+if (!$connect){
+    die("Connection error").mysqli_connect_error();
+}
+
+$users = mysqli_query($connect, "SELECT * FROM `users`");
+$users = mysqli_fetch_all($users);
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -28,34 +41,48 @@ require_once "db.inc.php";
     <link href="users_data.css" rel="stylesheet">
 </head>
 <body class="text-center">
-    <main>
-        <div class="toolbar">
-            <button type="button" class="btn btn-secondary" data-bs-toggle="tooltip" data-bs-placement="block" title="Block">
-                <img class= "button-image" src="icons/block.svg"> Block
-            </button>
-            <button type="button" class="btn btn-secondary" data-bs-toggle="tooltip" data-bs-placement="unblock" title="Unblock">
-                <img class= "button-image" src="icons/unblock.svg"> Unblock
-            </button>
-            <button type="button" class="btn btn-secondary" data-bs-toggle="tooltip" data-bs-placement="delete" title="Delete">
-                <img class= "button-image" src="icons/delete.svg"> Delete
-            </button>
-        </div>
-        <div class="full-table">
+        <main>
+            <a class="index-link" href="index.php"> Click here to return to the main page </a>
+            <div class="toolbar">
+                <form action="users_data_process.php" method="post">
+                    <button type="button" name="block" class="btn btn-secondary" data-bs-toggle="tooltip" data-bs-placement="block" title="Block">
+                        <img class= "button-image" src="icons/block.svg"> Block
+                    </button>
+                </form>
+                <form action="users_data_process.php" method="post">
+                    <button type="button" name="unblock" class="btn btn-secondary" data-bs-toggle="tooltip" data-bs-placement="unblock" title="Unblock">
+                        <img class= "button-image" src="icons/unblock.svg"> Unblock
+                    </button>
+                </form>
+                <form action="users_data_process.php" method="post">
+                    <button type="button" name="delete" class="btn btn-secondary" data-bs-toggle="tooltip" data-bs-placement="delete" title="Delete">
+                        <img class= "button-image" src="icons/delete.svg"> Delete
+                    </button>
+                </form>
+            </div>
             <table class="table table-dark table-striped">
                 <thead>
                 <tr>
+                    <?php
+                    $selectAll = $_POST['$select_all'];
+                    $removeSelection = $_POST['$remove_selection'];
+                    ?>
                     <th scope="col">
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="select_all" id="select_all">
-                            <label class="form-check-label" for="select_all">
-                                Select all
-                            </label>
+                            <form action="" method="post">
+                                <input class="form-check-input" name="select_all" type="checkbox" value="select_all" id="select_all">
+                                <label class="form-check-label" for="select_all">
+                                    Select all
+                                </label>
+                            </form>
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="remove_selection" id="remove_selection">
-                            <label class="form-check-label" for="remove_selection">
-                                Remove selection
-                            </label>
+                            <form action="" method="post">
+                                <input class="form-check-input" name="remove_selection" type="checkbox" value="remove_selection" id="remove_selection">
+                                <label class="form-check-label" for="remove_selection">
+                                    Remove selection
+                                </label>
+                            </form>
                         </div>
                     </th>
                     <th scope="col">id</th>
@@ -67,10 +94,31 @@ require_once "db.inc.php";
                 </tr>
                 </thead>
                 <tbody>
+                <?php
+                    foreach($users as $info){
+                ?>
+                    <tr scope="row">
+                       <td>
+                           <div class="form-check">
+                               <form action="users_data_process.php" method="post">
+                                   <input class="form-check-input" type="checkbox" name="select_user[<?= $info[0] ?>]"
+                                       <?php if (isset($selectAll)){ echo 'checked="checked"'; }
+                                       if (isset($removeSelection)){ echo 'checked=""'; } ?> value="select_user" id="select_user">
+                               </form>
+                           </div>
+                       </td>
+                        <td> <?= $info[0] ?> </td>
+                        <td> <?= $info[2] ?> </td>
+                        <td> <?= $info[3] ?> </td>
+                        <td> <?= $info[4] ?> </td>
+                        <td> <?= $info[6] ?> </td>
+                        <td> <?= $info[5] ?> </td>
+                    </tr>
+                <?php
+                }
+                ?>
                 </tbody>
             </table>
-        </div>
-
     </main>
 </body>
 </html>
