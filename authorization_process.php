@@ -14,27 +14,39 @@ $enteredMail = filter_var(trim($_POST['mail']), FILTER_SANITIZE_EMAIL);
 $enteredPassword = hash('sha3-256', filter_var(trim($_POST['password']), FILTER_SANITIZE_STRING));
 $loginDate = date('d-m-Y');
 
-$requestedPassword = mysqli_query($connect, "SELECT user_password FROM users WHERE user_mail = '$enteredMail'");
-$realPassword = implode(mysqli_fetch_assoc($requestedPassword));
-mysqli_close($connect);
+$realPassword = '';
+$requestedPassword = mysqli_fetch_assoc(mysqli_query($connect, "SELECT user_password FROM users WHERE user_mail = '$enteredMail'"));
+if ($requestedPassword != NULL) {
+    $realPassword = implode($requestedPassword);
+}else {
+    echo 'Password is empty';
+    header('Location: '.'register.php');
+}
+
+//mysqli_close($connect);
 
 $requestedStatus = mysqli_fetch_assoc(mysqli_query($connect, "SELECT status FROM users WHERE user_mail = '$enteredMail'"));
-mysqli_close($connect);
-if (isset($requestedStatus)){
+//mysqli_close($connect);
+if ($requestedStatus != NULL){
     $userStatus = implode($requestedStatus);
 } else{
     $userStatus = 'active';
 }
 
-$requestedId = mysqli_query($connect, "SELECT user_id FROM users WHERE user_mail = '$enteredMail'");
-$userId = implode(mysqli_fetch_assoc($requestedId));
-mysqli_close($connect);
-settype($userId, "integer");
-
+$userId = '';
+$requestedId = mysqli_fetch_assoc(mysqli_query($connect, "SELECT user_id FROM users WHERE user_mail = '$enteredMail'"));
+if ($requestedId != NULL){
+    $userId = implode($requestedId);
+//mysqli_close($connect);
+    settype($userId, "integer");
+} else{
+    echo 'Data about id are empty. Enter your data again';
+    header('Location: '.'register.php');
+}
 
 if(($enteredPassword == $realPassword) && ($userStatus != 'blocked')){
     mysqli_query($connect, "UPDATE users SET login_date ='$loginDate' WHERE user_mail = '$enteredMail'");
-    mysqli_close($connect);
+//    mysqli_close($connect);
     $_SESSION['userId'] = $userId;
     header('Location: '.'users_data.php');
 }else {

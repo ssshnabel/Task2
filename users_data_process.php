@@ -20,7 +20,7 @@ if (isset($selectUser)){
     foreach ($selectUser as $id){
         if (isset($blockButton)){
             mysqli_query($connect, "UPDATE users SET status = 'blocked' WHERE user_id = '$id'");
-            mysqli_close($connect);
+//            mysqli_close($connect);
 
             foreach (mysqli_query($connect,"SELECT id FROM users WHERE status = 'blocked'") as $id){
                 if ($_SESSION['userId'] = $id){
@@ -33,12 +33,12 @@ if (isset($selectUser)){
 
         if (isset($unblockButton)){
             mysqli_query($connect, "UPDATE users SET status = 'active' WHERE user_id = '$id'");
-            mysqli_close($connect);
+//            mysqli_close($connect);
         }
 
         if (isset($deleteButton)){
             mysqli_query($connect, "UPDATE users SET status = 'deleted' WHERE user_id = '$id'");
-            mysqli_close($connect);
+//            mysqli_close($connect);
 
             foreach (mysqli_query($connect,"SELECT id FROM users WHERE status = 'deleted'") as $id){
                 if ($_SESSION['userId'] = $id){
