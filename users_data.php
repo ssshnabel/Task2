@@ -1,16 +1,8 @@
 <?php
 
-$host = "127.0.0.1";
-$dbUsername = "root";
-$dbPassword = "";
-$dbName = "task3";
+require_once 'db.inc.php';
 
-$connect = mysqli_connect($host, $dbUsername, null, $dbName, 3306);
-if (!$connect){
-    die("Connection error").mysqli_connect_error();
-}
-
-$users = mysqli_query($connect, "SELECT * FROM `users`");
+$users = mysqli_query($connect, "SELECT * FROM users");
 $users = mysqli_fetch_all($users);
 ?>
 
@@ -22,6 +14,7 @@ $users = mysqli_fetch_all($users);
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="bootstrap.min.css" rel="stylesheet">
+    <link href="users_data.css" rel="stylesheet">
 
     <style>
         .bd-placeholder-img {
@@ -38,13 +31,14 @@ $users = mysqli_fetch_all($users);
             }
         }
     </style>
-    <link href="users_data.css" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 </head>
 <body class="text-center">
-        <main>
-            <a class="index-link" href="index.php"> Click here to return to the main page </a>
+            <div class="index-link-wrapper">
+                <a class="index-link" href="index.php"> Click here to return to the main page </a>
+            </div>
             <div class="toolbar">
-                <form action="users_data_process.php" method="post">
+                <form class="toolbar-form" action="users_data_process.php" method="post">
                     <button type="submit" name="block" class="btn btn-secondary" data-bs-toggle="tooltip" data-bs-placement="block" title="Block">
                         <img class= "button-image" src="icons/block.svg"> Block
                     </button>
@@ -61,24 +55,12 @@ $users = mysqli_fetch_all($users);
             <table class="table table-dark table-striped">
                 <thead>
                 <tr>
-                    <?php
-                    $selectAll = $_POST['$select_all'];
-                    $removeSelection = $_POST['$remove_selection'];
-                    ?>
                     <th scope="col">
                         <div class="form-check">
-                            <form action="users_data.php" method="post">
-                                <input class="form-check-input" name="select_all" type="checkbox" value="select_all" id="select_all">
-                                <label class="form-check-label" for="select_all">
-                                    Select all
+                                <input class="form-check-input" type="checkbox"  id="main-checkbox" name="main-checkbox">
+                                <label class="form-check-label" for="main-checkbox">
+                                    Select all/Remove selection
                                 </label>
-                            </form>
-                            <form>
-                                <input class="form-check-input" name="remove_selection" type="checkbox" value="remove_selection" id="remove_selection">
-                                <label class="form-check-label" for="remove_selection">
-                                    Remove selection
-                                </label>
-                            </form>
                         </div>
                     </th>
                     <th scope="col">id</th>
@@ -96,10 +78,8 @@ $users = mysqli_fetch_all($users);
                     <tr scope="row">
                        <td>
                            <div class="form-check">
-                               <form action="users_data_process.php" method="post">
-                                   <input class="form-check-input" type="checkbox" name="select_user[<?= $info[0] ?>]"
-                                       <?php if (isset($selectAll)){ echo 'checked="checked"'; }
-                                       if (isset($removeSelection)){ echo 'checked=""'; } ?> value="select_user" id="select_user">
+                               <form action="users_data_process.php" id="controls" method="post">
+                                   <input class="form-check-input" type="checkbox" name="select_user[]" value="<?= $info[0] ?>">
                                </form>
                            </div>
                        </td>
@@ -113,8 +93,25 @@ $users = mysqli_fetch_all($users);
                 <?php
                 }
                 ?>
+                <script>
+                    let checks = document.getElementsByName("select_user[]");
+                    checks.forEach(setCheck);
+                    function setCheck() {
+                        $('#main-checkbox').click(function(){
+                            if ($(this).is(':checked')){
+                                $('#controls input:checkbox').prop('checked', true);
+                            } else {
+                                $('#controls input:checkbox').prop('checked', false);
+                            }
+                        });
+                    }
+                </script>
                 </tbody>
             </table>
-    </main>
+
 </body>
 </html>
+
+<?php
+mysqli_close($connect);
+?>

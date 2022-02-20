@@ -8,4 +8,3 @@ $connect = mysqli_connect($host, $dbUsername, null, $dbName, 3306);
 if (!$connect){
     die("Connection error").mysqli_connect_error();
 }
-?>
